@@ -46,13 +46,23 @@ ANDROID_CLAUSE = (
     "cards and two or three e-wallets"
 )
 
+# Neither subhead promises savings. Both used to end on "what you could
+# realistically have kept", and the artifact four inches below deliberately
+# refuses that: its part 3 offers one change at an honest RM27.45–82.35 range,
+# calls it "one option, not a recommendation", and says the delivery spend "is
+# not alarming". A promise the page then declines to cash reads as failure to
+# deliver, not as restraint. It also contaminates the test — wanting to be told
+# how to save money is a third proposition, neither A (insight) nor B (effort),
+# so a click on it means nothing. Both subheads now describe what the artifact
+# does do: separate spending from money movement.
 VARIANTS = {
     "a": {
         "headline": "You track your spending. You still can&rsquo;t see where it&rsquo;s going.",
         "subhead": (
-            ANDROID_CLAUSE + " &mdash; a plain-English monthly review of "
-            "where the money actually went, and the two or three places you could "
-            "realistically have kept some."
+            ANDROID_CLAUSE + " &mdash; a plain-English monthly review that "
+            "separates what you <strong>actually spent</strong> from what merely "
+            "<strong>left your accounts</strong>, and shows you the arithmetic so "
+            "you can check it."
         ),
         "title": "You track your spending. You still can't see where it's going.",
     },
@@ -60,8 +70,9 @@ VARIANTS = {
         "headline": "A monthly spending review that doesn&rsquo;t ask you to log anything.",
         "subhead": (
             ANDROID_CLAUSE + " &mdash; you keep spending the way you "
-            "already do. Once a month you get a plain-English read on where it "
-            "went and what you could realistically have kept."
+            "already do. Once a month you get a plain-English read that separates "
+            "what you <strong>actually spent</strong> from what merely "
+            "<strong>left your accounts</strong>."
         ),
         "title": "A monthly spending review that doesn't ask you to log anything.",
     },
@@ -101,6 +112,9 @@ h1{
   letter-spacing:-.01em;
 }
 .sub{font-size:clamp(1.02rem,2.4vw,1.16rem);color:var(--muted);margin:0;max-width:34rem}
+/* The two halves of the distinction the artifact is actually built on. Darkened
+   rather than bolded — a heavy weight here would out-shout the headline. */
+.sub strong{font-weight:600;color:var(--ink)}
 /* Platform limit, above the headline and identical on both variants. Set in the
    sans stack: Georgia has no lining figures and this sits beside "RM10" copy. */
 .kicker{
