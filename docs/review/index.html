@@ -38,10 +38,25 @@
     font-family:Georgia,"Times New Roman",serif;
     font-size:17px;
     line-height:1.5;
-    /* Georgia defaults to old-style figures, which turn "P0" into "Po" and
-       make money read oddly. Force lining, tabular-friendly numerals. */
+    /* Georgia has old-style figures and NO lining set, so "lnum" is a no-op
+       here — verified in Chrome with Georgia installed. Kept only for the
+       fallback serifs that do carry the feature. The real fix is structural:
+       every figure a reader has to CHECK lives in a table or a .working
+       block, and both are set in the sans stack below, which is lining and
+       tabular. Serif old-style figures survive only in running prose, where
+       they are what old-style figures are for. The one place that failed is
+       the participant ID — see .pid. */
     font-variant-numeric:lining-nums;
     font-feature-settings:"lnum" 1;
+  }
+
+  /* An ID like "P0" set in Georgia reads as the word "Po", because the
+     old-style zero is x-height. The ID is how the protocol refers to this
+     person, so it is set in the sans face wherever it appears. */
+  .pid{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.92em;
+    letter-spacing:.01em;
   }
 
   .page{
@@ -426,8 +441,8 @@
     <span class="band-sub">This is not your data. It is not real benchmark data. It describes a fictional person we invented to show you what a review looks like. Nothing here was taken from any bank, card or e-wallet account.</span>
   </div>
 
-  <h1>Spending review — fictional example “P0”</h1>
-  <p class="dek">Period: <strong>1–30 September (synthetic)</strong>. Prepared by hand. Five pages — every number is followed by the transactions it came from, so you can check any of it.</p>
+  <h1>Spending review — fictional example “<span class="pid">P0</span>”</h1>
+  <p class="dek">Period: <strong>1–30 September (synthetic)</strong>. Prepared by hand. Six pages — every number is followed by the transactions it came from, so you can check any of it.</p>
 
   <div class="keyrule">
     <strong>Two things to know before you read on.</strong><br>
@@ -740,7 +755,7 @@
   </section>
 
   <footer>
-    <p><strong>SYNTHETIC DATA — EVERY FIGURE ON THIS PAGE IS INVENTED.</strong> “P0” is not a real person. Nothing here came from a real bank, card or e-wallet account, and none of it is benchmark or average data for anyone. No bank, card, e-wallet or merchant is named anywhere on this page — only the <em>type</em> of account, which is all the figures depend on.</p>
+    <p><strong>SYNTHETIC DATA — EVERY FIGURE ON THIS PAGE IS INVENTED.</strong> “<span class="pid">P0</span>” is not a real person. Nothing here came from a real bank, card or e-wallet account, and none of it is benchmark or average data for anyone. No bank, card, e-wallet or merchant is named anywhere on this page — only the <em>type</em> of account, which is all the figures depend on.</p>
     <p><strong>A dash (—) means we could not see it.</strong> It never means zero. Hatched boxes mark places where our view was incomplete.</p>
     <p>Prepared by hand for a research conversation. Nothing on this page is financial or investment advice.</p>
   </footer>

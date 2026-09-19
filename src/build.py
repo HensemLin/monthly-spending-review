@@ -298,9 +298,11 @@ JS = """
         if (data && String(data.success) === 'true') {
           window.location.href = '../thanks/?v=' + V;
         } else {
+          /* Say plainly that it did not send. It would be easy to write
+             "nothing is lost" here and it would not be true. */
           ping('submit-undelivered');
-          say('Your details reached us, but our mail relay has not finished setting itself up. ' +
-              'Nothing is lost \\u2014 please try again in a day, or that is on us either way.', true);
+          say('That didn\\u2019t send, and the problem is on our end rather than yours \\u2014 ' +
+              'our mail setup isn\\u2019t finished. Sorry. Please do try again later.', true);
           btn.disabled = false;
         }
       })
