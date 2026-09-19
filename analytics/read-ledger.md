@@ -11,11 +11,16 @@ zero point.** Subtract them from any raw value before reporting anything.
 Snapshot taken 2026-09-19, after the self-test harness was removed from the live
 site and before any real visitor was sent to the page.
 
+The table has since been adjusted **arithmetically, without re-reading**, to absorb
+two final evidence screenshots (one per variant), each firing `load`, `session`
+and `form-seen`. Adjusting by hand rather than re-reading avoids adding six more
+read-hits just to account for two.
+
 | Counter | Baseline (= zero) |
 |---|---:|
-| `a/load` | 16 |
-| `a/session` | 14 |
-| `a/form-seen` | 4 |
+| `a/load` | 17 |
+| `a/session` | 15 |
+| `a/form-seen` | 5 |
 | `a/submit` | 4 |
 | `a/q-1-2` | 1 |
 | `a/q-3-4` | 4 |
@@ -23,9 +28,9 @@ site and before any real visitor was sent to the page.
 | `a/q-7plus` | 1 |
 | `a/submit-undelivered` | 2 |
 | `a/submit-error` | 1 |
-| `b/load` | 2 |
-| `b/session` | 2 |
-| `b/form-seen` | 4 |
+| `b/load` | 3 |
+| `b/session` | 3 |
+| `b/form-seen` | 5 |
 | `b/submit` | 1 |
 | `b/q-1-2` | 1 |
 | `b/q-3-4` | 1 |
