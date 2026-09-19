@@ -69,6 +69,28 @@
   var btn = document.getElementById('submit-btn');
   var msg = document.getElementById('form-msg');
 
+  /* Tell a non-Android visitor the truth at the moment they pick, not after
+     they have handed over an email. They can still sign up — an iPhone-heavy
+     list is a finding about who the promise attracts, and suppressing it would
+     destroy exactly the signal HEN-42 says to watch for. */
+  var phoneSel = document.getElementById('phone');
+  var phoneNote = document.getElementById('platform-note');
+  var NOTES = {
+    iphone: 'Then this could not work for you, and we would rather say so now. Reading payment ' +
+            'notifications is Android-only \u2014 not a feature we have yet, one the iPhone does ' +
+            'not allow at all. You are welcome to leave your email anyway and we will tell you ' +
+            'honestly if that ever changes.',
+    other: 'Worth knowing: this would only work on the Android one. Reading payment ' +
+           'notifications is not possible on iPhone.'
+  };
+  if (phoneSel && phoneNote) {
+    phoneSel.addEventListener('change', function () {
+      var t = NOTES[phoneSel.value];
+      phoneNote.textContent = t || '';
+      phoneNote.className = t ? 'platform-note show' : 'platform-note';
+    });
+  }
+
   function say(text, isErr) {
     msg.textContent = text;
     msg.className = isErr ? 'msg err' : 'msg';
@@ -80,16 +102,21 @@
 
     var email = el.email.value.trim();
     var accounts = el.accounts.value;
-    if (!email || !accounts) { say('Please fill in both fields.', true); return; }
+    var phone = el.phone.value;
+    if (!email || !accounts || !phone) { say('Please fill in all three fields.', true); return; }
 
     btn.disabled = true;
     say('Sending\u2026', false);
 
-    /* Count the submit and the qualification bucket before the network call,
-       so the funnel is measurable even if mail delivery is down. No email
-       address is ever sent to the counter. */
+    /* Count the submit, the qualification bucket and the platform before the
+       network call, so the funnel is measurable even if mail delivery is down.
+       Platform is counted separately because an iPhone-heavy list means the
+       promise is attracting people the product structurally cannot serve —
+       good-looking conversion that is actually a stop signal. No email address
+       is ever sent to the counter. */
     ping('submit');
     ping('q-' + accounts);
+    ping('p-' + phone);
 
     var endpoint = 'https://formsubmit.co/ajax/' + atob('amlheXVhbmxpbjgzOEBnbWFpbC5jb20=');
     fetch(endpoint, {
@@ -98,6 +125,7 @@
       body: JSON.stringify({
         email: email,
         accounts: accounts,
+        phone: phone,
         variant: V,
         _subject: 'Spending review smoke test \u2014 new signup (variant ' + V + ')',
         _captcha: 'false',

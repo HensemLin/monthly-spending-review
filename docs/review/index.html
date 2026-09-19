@@ -266,6 +266,52 @@
     font-size:.98rem;
   }
 
+  /* --- Screen/print divergence ---------------------------------------
+     A page count is a property of the printed sheet, not of a scrolling
+     page. Claiming "six pages" to someone reading on a phone tells them
+     nothing except that it is long, which on a public page reads as a
+     warning. So it is print-only, where it is both true and useful.
+     ------------------------------------------------------------------ */
+  .print-only{display:none}
+
+  /* --- Contents ------------------------------------------------------
+     Added when this page's reader changed from a moderated participant
+     to a stranger on a public page (HEN-49). In a session someone can
+     say "skip to the flags". Cold, nobody can, and the page is long
+     enough that a reader who wants one part must be able to reach it
+     without scrolling past the other three. Screen only — on paper the
+     section rules already do this job, and a list of unnumbered links
+     printed on a sheet is dead text.
+     ------------------------------------------------------------------ */
+  .toc{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.82rem;
+    line-height:1.5;
+    border-top:1px solid var(--hair);
+    border-bottom:1px solid var(--hair);
+    padding:.5rem 0;
+    margin:1.1rem 0 1.2rem;
+    color:var(--muted);
+  }
+  .toc .toc-lbl{
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--ink);
+    margin-right:.15rem;
+  }
+  .toc a{color:var(--ink);text-underline-offset:2px}
+  .toc .sep{color:var(--hair);padding:0 .1rem}
+
+  /* Zero-height jump targets. They sit BEFORE each <section> rather than
+     on it, because the landing-page build (landing/src/build.py) asserts
+     on the exact string `<section>\n    <h2><span class="num">Part N of 4`
+     to attach its own ids. Putting an id on the section or the h2 here
+     would break that build. Two ids on one section is harmless; a broken
+     assert is not. */
+  .anchor{display:block;height:0;overflow:hidden}
+
   /* --- "If you read nothing else" ------------------------------------
      The two-minute read. Everything after it is the evidence for it, so
      it is the heaviest box on the page and the only one with a filled
@@ -296,6 +342,23 @@
     font-size:.97rem;
   }
   .upfront li{margin:.42rem 0}
+
+  /* Who "you" is.
+     The content is written in the second person throughout — correct for
+     a moderated session, where a person is handed their own review and a
+     researcher is sitting there. Read cold off a public page it is a
+     trap: "You spent RM1,635.50" is a sentence about the reader until
+     they work out that it is not. Rewriting PS2's prose out of the
+     second person would touch every figure's sentence, so instead the
+     addressee is named once, inside the first box that uses "you", at
+     the moment the first "you" is read. */
+  .whose{
+    margin:0;
+    padding:.5rem .85rem .1rem;
+    font-size:.9rem;
+    color:var(--muted);
+  }
+  .whose strong{color:var(--ink)}
   .upfront .src{
     color:var(--muted);
     font-style:italic;
@@ -406,9 +469,13 @@
     .upfront h2{font-size:.78rem;padding:.25rem .6rem}
     .upfront ol{padding:.35rem .6rem .4rem 1.8rem}
     .upfront li{margin:.25rem 0}
+    .upfront .whose{padding:.25rem .6rem .05rem;font-size:.9em}
     .band{padding:.4rem .6rem}
     .dek{margin-bottom:.7rem}
     footer{margin-top:.8rem;padding-top:.4rem}
+
+    .print-only{display:inline}
+    .toc{display:none}   /* screen affordance; see .toc above */
 
     /* Keep the small atomic units whole — a source-row table or a "check us"
        box split across a fold is unreadable. The large blocks (.gap, .working)
@@ -438,20 +505,23 @@
 
   <div class="band">
     Synthetic sample — every figure on this page is made up
-    <span class="band-sub">This is not your data. It is not real benchmark data. It describes a fictional person we invented to show you what a review looks like. Nothing here was taken from any bank, card or e-wallet account.</span>
+    <span class="band-sub">This is not your data, and it is not benchmark data. It describes a fictional person we invented to show what a review looks like, and nothing in it came from any real bank, card or e-wallet account.</span>
   </div>
 
   <h1>Spending review — fictional example “<span class="pid">P0</span>”</h1>
-  <p class="dek">Period: <strong>1–30 September (synthetic)</strong>. Prepared by hand. Six pages — every number is followed by the transactions it came from, so you can check any of it.</p>
+  <p class="dek">Period: <strong>1–30 September (synthetic)</strong>. Prepared by hand. <span class="print-only">Six pages. </span>Every number is followed by the transactions it came from, so you can check any of it.</p>
 
-  <div class="keyrule">
-    <strong>Two things to know before you read on.</strong><br>
-    <strong>1.</strong> A dash <b>—</b> on this page means <em>we could not see it</em>. It never means zero.<br>
-    <strong>2.</strong> Every number shows the transactions it came from and how it was worked out. <strong>If we got something wrong, we want you to catch it.</strong> Please cross it out and tell us.
-  </div>
-
+  <!-- The payoff box now precedes the reading rules. Ordering was chosen
+       for a moderated session, where the rules are read aloud anyway and
+       the box only had to land on printed sheet 1. Cold on a public page
+       (HEN-49) a stranger gives this a few seconds, and the first screen
+       was three blocks of preamble before a single figure. The box still
+       lands on sheet 1 in print — earlier, in fact — so nothing about the
+       paper version is given up. The dash rule stays ahead of the first
+       dash: the first one is in part 1's "what we could not see". -->
   <div class="upfront">
     <h2>If you read nothing else</h2>
+    <p class="whose">Every “you” below is <strong><span class="pid">P0</span></strong>, the invented person this sample describes — not you, the reader.</p>
     <ol>
       <li>You spent <strong>RM1,635.50</strong> on yourself in September — not the <strong>RM5,145.50</strong> your accounts show. The gap is RM3,510.00 of card repayment, own-account transfers, investment and commitments. <span class="src">(part 1)</span></li>
       <li>Your commitments were <strong>RM1,180.00</strong>, and you set aside <strong>RM800.00</strong>. <span class="src">(part 1)</span></li>
@@ -460,7 +530,22 @@
     </ol>
   </div>
 
+  <nav class="toc" aria-label="Contents">
+    <span class="toc-lbl">The rest:</span>
+    <a href="#p1">1 — what we counted</a> <span class="sep">·</span>
+    <a href="#p2">2 — the three flags</a> <span class="sep">·</span>
+    <a href="#p3">3 — one thing to change</a> <span class="sep">·</span>
+    <a href="#p4">4 — questions back to you</a>
+  </nav>
+
+  <div class="keyrule">
+    <strong>Two things to know before you read on.</strong><br>
+    <strong>1.</strong> A dash <b>—</b> on this page means <em>we could not see it</em>. It never means zero.<br>
+    <strong>2.</strong> Every number shows the transactions it came from and how it was worked out. <strong>If we got something wrong, we want you to catch it.</strong> Please cross it out and tell us.
+  </div>
+
   <!-- ============================================================= -->
+  <a class="anchor" id="p1"></a>
   <section id="part1">
     <h2><span class="num">Part 1 of 4</span>What we counted as personal spending<span class="chip">Synthetic</span></h2>
 
@@ -589,6 +674,7 @@
   </section>
 
   <!-- ============================================================= -->
+  <a class="anchor" id="p2"></a>
   <section id="part2">
     <h2><span class="num">Part 2 of 4</span>Three things we flagged<span class="chip">Synthetic</span></h2>
 
@@ -693,6 +779,7 @@
   </section>
 
   <!-- ============================================================= -->
+  <a class="anchor" id="p3"></a>
   <section id="part3">
     <h2><span class="num">Part 3 of 4</span>One thing you could change, with the arithmetic<span class="chip">Synthetic</span></h2>
 
@@ -722,6 +809,7 @@
   </section>
 
   <!-- ============================================================= -->
+  <a class="anchor" id="p4"></a>
   <section id="part4">
     <h2><span class="num">Part 4 of 4</span>Three questions back to you<span class="chip">Synthetic</span></h2>
 

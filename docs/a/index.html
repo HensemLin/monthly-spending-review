@@ -16,8 +16,9 @@
 <main>
 
   <section class="hero">
+    <p class="kicker">Android only, to start &mdash; and that is a real limit, not a roadmap note.</p>
     <h1>You track your spending. You still can&rsquo;t see where it&rsquo;s going.</h1>
-    <p class="sub">For Malaysians paying across a few bank accounts, a couple of cards and two or three e-wallets &mdash; a plain-English monthly review of where the money actually went, and the two or three places you could realistically have kept some.</p>
+    <p class="sub">For Malaysians on Android paying across a few bank accounts, a couple of cards and two or three e-wallets &mdash; a plain-English monthly review of where the money actually went, and the two or three places you could realistically have kept some.</p>
   </section>
 
   <section class="artifact">
@@ -34,6 +35,13 @@
 
   <section class="trust">
     <p><strong>No bank login. Ever.</strong> We will never ask you to connect an account, upload a statement, or send a screenshot of your balance.</p>
+    <p><strong>Android only, and honestly so.</strong> The way this would work is by reading the
+       payment notifications your bank and e-wallet apps already send you. Only Android lets an app
+       do that. On an iPhone it is not a missing feature we could add later &mdash; it is not
+       possible, so we are not going to promise it to you.</p>
+    <p><strong>If it gets built, about RM10 a month.</strong> We&rsquo;d rather tell you the number
+       now than find out later that you only liked it while it was free. Nothing to pay today:
+       there is nothing to buy yet.</p>
     <p><strong>Nothing is built yet.</strong> This is an early test of an idea. There&rsquo;s nothing to buy, download or sign up to.</p>
     <p><strong>The numbers above are made up.</strong> That&rsquo;s a sample review built on invented data, not anyone&rsquo;s real spending.</p>
     <p><strong>One email, then nothing.</strong> We&rsquo;ll write once to ask three short questions. That&rsquo;s the whole plan.</p>
@@ -58,6 +66,18 @@
           <option value="5-6">5&ndash;6</option>
           <option value="7plus">7 or more</option>
         </select>
+      </div>
+      <div class="field">
+        <label for="phone">What phone do you use?
+          <span class="hint">we ask because it decides whether this could work for you at all</span>
+        </label>
+        <select id="phone" name="phone" required>
+          <option value="" selected disabled>Choose one</option>
+          <option value="android">Android</option>
+          <option value="iphone">iPhone</option>
+          <option value="other">Something else / both</option>
+        </select>
+        <p class="platform-note" id="platform-note" role="status" aria-live="polite"></p>
       </div>
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" id="submit-btn">Send me the three questions</button>

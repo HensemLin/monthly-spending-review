@@ -39,6 +39,30 @@ read-hits just to account for two.
 | `b/submit-undelivered` | 1 |
 | `b/submit-error` | 1 |
 
+### Platform counters added 2026-09-19 (after the HEN-39 narrow verdict)
+
+The signup now asks which phone the visitor uses, and each answer increments its
+own counter. Baseline is **0** for all six, and that zero is *verified rather
+than assumed*: these counter paths did not exist before this change, and the
+end-to-end test that exercises them (`src/selftest.py`) runs against a local
+stub, so not one of the live counters was touched to prove they work.
+
+| Counter | Baseline (= zero) |
+|---|---:|
+| `a/p-android` | 0 |
+| `a/p-iphone` | 0 |
+| `a/p-other` | 0 |
+| `b/p-android` | 0 |
+| `b/p-iphone` | 0 |
+| `b/p-other` | 0 |
+
+Why this split matters more than it looks: `p-iphone` rising is **not** a
+nuisance metric. [HEN-42](/HEN/issues/HEN-42) established that notification
+capture is structurally impossible on iOS, so an iPhone-heavy signup list means
+the promise is attracting people the product cannot serve. That is a stop
+signal wearing the costume of good conversion. Report qualified conversion as
+`p-android / load`, and always report the iPhone share beside it.
+
 Counter base URL: `https://hits.sh/hen49.jul7v2v.smoke/<variant>/<event>.svg`
 
 Note the baselines are uneven between A and B. Variant A absorbed most of the
