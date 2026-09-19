@@ -27,11 +27,16 @@ OUT = ROOT / "docs"
 # ---------------------------------------------------------------------------
 COUNTER_BASE = "https://hits.sh/hen49.jul7v2v.smoke"
 
-# FormSubmit.co needs no account: it posts to an address and forwards to the
-# inbox. The address is base64'd so it is not sitting in the page source as
-# plain text for scrapers. This is obfuscation, not secrecy — it gets replaced
-# with FormSubmit's random alias as soon as the inbox owner activates.
-FORM_TARGET_B64 = "amlheXVhbmxpbjgzOEBnbWFpbC5jb20="
+# FormSubmit.co needs no account: it forwards a posted form to an inbox. The
+# page used to carry the owner's email address base64'd — obfuscation, not
+# secrecy, and anyone reading source could decode it in a second.
+#
+# The owner has since activated the form and returned FormSubmit's random
+# alias, so the address is gone from the page entirely. The alias is an opaque
+# routing token: it reveals no address, and it can be revoked at FormSubmit
+# without the owner having to change their email. Nothing to hide, so it is
+# written plainly rather than encoded.
+FORM_ALIAS = "a7e5a1993689a6d0f37c08c811c92a32"
 
 # The kicker and the "on Android" clause in each subhead are IDENTICAL across
 # variants by design. HEN-42 found Android notification listening is the only
@@ -361,7 +366,7 @@ JS = """
     ping('q-' + accounts);
     ping('p-' + phone);
 
-    var endpoint = 'https://formsubmit.co/ajax/' + atob('__FORM_TARGET_B64__');
+    var endpoint = 'https://formsubmit.co/ajax/' + '__FORM_ALIAS__';
     fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -562,7 +567,7 @@ def build():
     (OUT / "assets" / "site.js").write_text(
         JS.strip()
         .replace("__COUNTER_BASE__", COUNTER_BASE)
-        .replace("__FORM_TARGET_B64__", FORM_TARGET_B64)
+        .replace("__FORM_ALIAS__", FORM_ALIAS)
         + "\n",
         encoding="utf-8",
     )

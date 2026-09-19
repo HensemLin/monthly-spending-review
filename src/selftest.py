@@ -62,10 +62,12 @@ def build_test_site(dest: pathlib.Path) -> None:
     js = dest / "assets" / "site.js"
     src = js.read_text(encoding="utf-8")
     src = src.replace("https://hits.sh/hen49.jul7v2v.smoke", f"{BASE}/count")
-    # The endpoint is assembled as a literal + atob(...); replace the literal
-    # and neutralise the atob so the stub path is stable.
+    # The endpoint is assembled as a literal + a routing token. The token used
+    # to be atob(<base64 email>) and is now the FormSubmit alias as a plain
+    # string, so match whatever follows the literal rather than one shape of it.
+    # The guard below still fires if the assembly changes in a way this misses.
     src = re.sub(
-        r"'https://formsubmit\.co/ajax/' \+ atob\([^)]*\)",
+        r"'https://formsubmit\.co/ajax/' \+ [^;]+",
         f"'{BASE}/mail/stub'",
         src,
     )

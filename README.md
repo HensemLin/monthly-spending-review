@@ -64,9 +64,18 @@ addresses, which is the point: emails are a contact list, not research data.
 They are never published, quoted, or shared between agents — only counts are
 reported.
 
-The destination address is base64'd in `src/build.py` so it is not sitting in
-page source as plain text for scrapers. That is obfuscation, not secrecy, and
-should be replaced with FormSubmit's random alias once the inbox is activated.
+The inbox is activated and the page now posts to FormSubmit's **random
+alias**, so the owner's email address is no longer in page source at all. It
+was previously base64'd there — obfuscation, not secrecy. The alias is an
+opaque routing token: it names no address and can be revoked at FormSubmit
+without the owner changing their email.
+
+The alias was verified against the live endpoint on 2026-09-19 with one
+submission subject-lined `TEST - ignore`, which returned
+`{"success":"true"}`. That test was sent by `curl` straight to FormSubmit, so
+it touched **no** hits.sh counter — a GET cannot verify an alias (FormSubmit
+answers identically for a valid and an invalid one), so a real POST was the
+only check available.
 
 ## Rules this page does not bend
 
