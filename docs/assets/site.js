@@ -26,18 +26,31 @@
   ping('load');
 
   /* ---- artifact preview ---------------------------------------------
-     Park the preview on Part 1 so the visible slice is actual figures
-     rather than a screen of preamble. Done by scrolling the same-origin
-     child document, NOT by a #fragment in the iframe src: fragment
-     navigation inside an iframe scrolls the PARENT page too, which would
-     carry visitors straight past the headline being tested and void the
-     whole A/B comparison. If this fails the preview simply shows the top
-     of the review, which is still honest and still a real render. */
+     Park the preview on the "if you read nothing else" box so the visible
+     slice is the four findings, each with a figure in it.
+
+     It parked on Part 1 until HEN-44 re-cut the review and moved that box
+     to the top. Not parking at all was the obvious answer afterwards and
+     it is wrong here: this frame is 27rem tall, not a phone screen, so an
+     unparked preview spends its whole height on two stacked synthetic
+     banners and a title, and the first figure falls below the fold. The
+     box is the only slice that fits and carries a number.
+
+     It also keeps the reader-addressing line — "every you below is P0,
+     the invented person" — inside the visible slice, which parking on
+     part 1 did not.
+
+     Done by scrolling the same-origin child document, NOT by a #fragment
+     in the iframe src: fragment navigation inside an iframe scrolls the
+     PARENT page too, which would carry visitors straight past the
+     headline being tested and void the whole A/B comparison. If this
+     fails the preview simply shows the top of the review, which is still
+     honest and still a real render. */
   var rf = document.getElementById('review-frame');
   function parkPreview() {
     try {
       var d = rf.contentDocument;
-      var target = d.getElementById('part1');
+      var target = d.getElementById('upfront') || d.getElementById('part1');
       if (!target) return;
       rf.contentWindow.scrollTo(0, target.offsetTop - 12);
       d.documentElement.style.overflow = 'hidden';

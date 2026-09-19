@@ -125,7 +125,9 @@ h1{
 }
 /* The page deliberately scrolls past the review's own synthetic banner so the
    visible slice contains actual figures. This label carries that warning at
-   full strength above the frame; each part inside is also chip-labelled. */
+   full strength above the frame; each part inside is also chip-labelled, and
+   the parked slice opens on the line naming P0 as the person the figures
+   describe. Three statements of it, none of them load-bearing alone. */
 .synthetic-flag{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:.86rem;line-height:1.45;font-weight:600;
@@ -240,18 +242,31 @@ JS = """
   ping('load');
 
   /* ---- artifact preview ---------------------------------------------
-     Park the preview on Part 1 so the visible slice is actual figures
-     rather than a screen of preamble. Done by scrolling the same-origin
-     child document, NOT by a #fragment in the iframe src: fragment
-     navigation inside an iframe scrolls the PARENT page too, which would
-     carry visitors straight past the headline being tested and void the
-     whole A/B comparison. If this fails the preview simply shows the top
-     of the review, which is still honest and still a real render. */
+     Park the preview on the "if you read nothing else" box so the visible
+     slice is the four findings, each with a figure in it.
+
+     It parked on Part 1 until HEN-44 re-cut the review and moved that box
+     to the top. Not parking at all was the obvious answer afterwards and
+     it is wrong here: this frame is 27rem tall, not a phone screen, so an
+     unparked preview spends its whole height on two stacked synthetic
+     banners and a title, and the first figure falls below the fold. The
+     box is the only slice that fits and carries a number.
+
+     It also keeps the reader-addressing line — "every you below is P0,
+     the invented person" — inside the visible slice, which parking on
+     part 1 did not.
+
+     Done by scrolling the same-origin child document, NOT by a #fragment
+     in the iframe src: fragment navigation inside an iframe scrolls the
+     PARENT page too, which would carry visitors straight past the
+     headline being tested and void the whole A/B comparison. If this
+     fails the preview simply shows the top of the review, which is still
+     honest and still a real render. */
   var rf = document.getElementById('review-frame');
   function parkPreview() {
     try {
       var d = rf.contentDocument;
-      var target = d.getElementById('part1');
+      var target = d.getElementById('upfront') || d.getElementById('part1');
       if (!target) return;
       rf.contentWindow.scrollTo(0, target.offsetTop - 12);
       d.documentElement.style.overflow = 'hidden';
@@ -564,8 +579,8 @@ def build():
     rd.mkdir()
 
     # Anchor ids only. No content, figure or wording change — the landing page
-    # frame opens at #part1 so the visible slice shows real figures rather than
-    # a screen of preamble. Verified below that exactly 4 sections matched.
+    # frame parks on one of these so the visible slice shows real figures
+    # rather than a screen of preamble. Verified below that every one matched.
     review = (review_src / "spending-review-DEMO-synthetic.html").read_text(encoding="utf-8")
     for n in range(1, 5):
         marker = f'<section>\n    <h2><span class="num">Part {n} of 4</span>'
@@ -573,6 +588,15 @@ def build():
         review = review.replace(
             marker, f'<section id="part{n}">\n    <h2><span class="num">Part {n} of 4</span>'
         )
+
+    # The preview parks here, not on part 1. See parkPreview() in JS for why.
+    # HEN-44 added their own .anchor ids (p1..p4) in zero-height elements rather
+    # than on the sections, precisely so the asserts above keep matching; the
+    # same courtesy applies in reverse, so this id goes on the div that is
+    # already there instead of asking them to carry one for us.
+    upfront = '<div class="upfront">'
+    assert upfront in review, 'review markup changed: no "if you read nothing else" box'
+    review = review.replace(upfront, '<div class="upfront" id="upfront">', 1)
     (rd / "index.html").write_text(review, encoding="utf-8")
     shutil.copy(
         review_src / "spending-review-DEMO-synthetic.pdf",

@@ -8,6 +8,11 @@ zero point.** Subtract them from any raw value before reporting anything.
 
 > reported = raw − baseline
 
+**Superseded for eight counters.** The 2026-09-19 decision read at the bottom of
+this file re-zeroed `load`, `session`, `form-seen` and `submit` on both
+variants. Use the table there for those eight; the tables below still hold for
+the rest.
+
 Snapshot taken 2026-09-19, after the self-test harness was removed from the live
 site and before any real visitor was sent to the page.
 
@@ -86,8 +91,80 @@ counter it reads. Two consequences:
 | 2026-09-19 | `a/submit`, `a/q-3-4`, `a/form-seen` ×2 each | End-to-end submit test |
 | 2026-09-19 | `b/form-seen` ×2 | Scroll-to-form check |
 | 2026-09-19 | all 20 counters ×1 | Baseline snapshot above |
+| 2026-09-19 | `a/load`, `b/load`, `a/session`, `b/session`, `a/submit`, `b/submit`, `a/form-seen`, `b/form-seen` ×1 each | Decision read: HEN-44 asked whether changing the preview mid-flight would break comparability, which turns on whether any traffic had landed |
 
 **Every read after this line must be added to this table.**
+
+## 2026-09-19 decision read — and three hits nobody logged
+
+Eight counters read once each, to answer one question: had anything landed that
+a page change would invalidate? Answer: **nothing that can support a rate, but
+not the clean zero the baseline above claims.**
+
+Raw values are post-increment, so the pre-read figure is one less. Against the
+baseline:
+
+| Counter | Baseline | Raw pre-read | Unaccounted |
+|---|---:|---:|---:|
+| `a/load` | 17 | 19 | **+2** |
+| `a/session` | 15 | 17 | **+2** |
+| `a/form-seen` | 5 | 6 | **+1** |
+| `a/submit` | 4 | 4 | 0 |
+| `b/load` | 3 | 4 | **+1** |
+| `b/session` | 3 | 4 | **+1** |
+| `b/form-seen` | 5 | 5 | 0 |
+| `b/submit` | 1 | 1 | 0 |
+
+Three loads, three sessions, one form-seen, **zero submits.**
+
+`session` rising in lockstep with `load` is the informative part: `session`
+only fires from JavaScript that can reach `sessionStorage`, so these were three
+separate JS-executing browser sessions, not a plain HTML crawler. Beyond that
+they are **not attributable**. They could be a real person who found the URL, a
+JS-rendering preview or scanner bot, or an agent's own headless render that was
+never written down. We cannot tell, and saying which one it was would be
+inventing a fact.
+
+What is safe to say: **three sessions, one of which scrolled to the form, none
+of which signed up.** That is not a conversion rate and should never be
+reported as one — 0/3 tells you nothing at this size.
+
+### The baseline has been reset to absorb them
+
+The eight counters read above are re-zeroed to their **post-read** values. The
+three unattributed sessions are therefore folded into the zero point rather
+than counted as traffic. That is the conservative direction: it can only make a
+future result look smaller, never larger.
+
+| Counter | New baseline (= zero) | Was |
+|---|---:|---:|
+| `a/load` | 20 | 17 |
+| `a/session` | 18 | 15 |
+| `a/form-seen` | 7 | 5 |
+| `a/submit` | 5 | 4 |
+| `b/load` | 5 | 3 |
+| `b/session` | 5 | 3 |
+| `b/form-seen` | 6 | 5 |
+| `b/submit` | 2 | 1 |
+
+The twelve counters not read this round (`q-*`, `p-*`, `submit-undelivered`,
+`submit-error`) keep the baselines given earlier in this file.
+
+### The discipline failed once, so state the limit it leaves
+
+Something incremented these counters without a line in this table. Whatever it
+was, it means the ledger cannot prove the zero point was ever clean, only that
+it is clean **from here**. Two consequences worth carrying forward:
+
+1. Any future render of the live page — screenshot, smoke check, "just looking"
+   — must be run against a **local stubbed copy**, the way `src/selftest.py`
+   does it, or logged here. The park-comparison screenshots taken on
+   2026-09-19 were run locally against a stub for exactly this reason and
+   touched no live counter.
+2. The first real reporting run should quote the **sample size next to the
+   rate**, as the spec requires, and name this reset. A reader who is told
+   "3 sessions were absorbed into the baseline" can judge the number. A reader
+   handed a bare percentage cannot.
 
 ## What these numbers cannot do
 

@@ -55,7 +55,9 @@ h1{
 }
 /* The page deliberately scrolls past the review's own synthetic banner so the
    visible slice contains actual figures. This label carries that warning at
-   full strength above the frame; each part inside is also chip-labelled. */
+   full strength above the frame; each part inside is also chip-labelled, and
+   the parked slice opens on the line naming P0 as the person the figures
+   describe. Three statements of it, none of them load-bearing alone. */
 .synthetic-flag{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:.86rem;line-height:1.45;font-weight:600;
