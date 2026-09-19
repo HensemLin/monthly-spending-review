@@ -166,6 +166,31 @@ it is clean **from here**. Two consequences worth carrying forward:
    "3 sessions were absorbed into the baseline" can judge the number. A reader
    handed a bare percentage cannot.
 
+## Copy versions — what sentence each counter was measuring
+
+A conversion rate belongs to a *sentence*, not to a URL. If the promise changes
+mid-flight, counters spanning the change measure two different questions, and
+nobody reading a percentage later can tell. So every change to a headline or
+subhead gets a line here.
+
+| Version | Landed (UTC) | Change | Traffic measured under it |
+|---|---|---|---|
+| v1 | 2026-09-19 | Both subheads ended on *"what you could realistically have kept"* | **None.** The decision read above found zero submits and folded all three unattributed sessions into the baseline. |
+| v2 | 2026-09-19, commit `71acb6e` | Both subheads now read *"separates what you actually spent from what merely left your accounts"*. Headlines unchanged. | Everything from here. |
+
+**No counter was read to establish this and none needed to be.** The decision
+read already answered the only question a copy change raises — had anything
+landed that the change would invalidate — and the answer was no: zero submits,
+and the eight traffic counters re-zeroed to their post-read values. v1 has no
+result to be comparable with, so v2 starts from the same clean zero rather than
+from a mixed baseline.
+
+The build change itself touched no live counter: `src/build.py` regenerates
+static files, and `src/selftest.py` re-verified the whole funnel against the
+local stub. The live page was checked with `curl` on the HTML only, which
+fetches no sub-resources and so fires neither the JS beacons nor the `<noscript>`
+image.
+
 ## What these numbers cannot do
 
 The counters are public and writable by anyone who views page source. At this
