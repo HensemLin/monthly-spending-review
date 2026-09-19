@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A monthly spending review that doesn&#x27;t ask you to log anything.</title>
+<meta name="description" content="An early test of an idea: a plain-English monthly spending review for Malaysians paying across several accounts. Nothing is built yet.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="A monthly spending review that doesn&#x27;t ask you to log anything.">
+<meta property="og:description" content="An early test of an idea. Nothing is built yet, nothing to buy.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-variant="b">
+<div class="wrap">
+<main>
+
+  <section class="hero">
+    <h1>A monthly spending review that doesn&rsquo;t ask you to log anything.</h1>
+    <p class="sub">For Malaysians paying across a few bank accounts, a couple of cards and two or three e-wallets &mdash; you keep spending the way you already do. Once a month you get a plain-English read on where it went and what you could realistically have kept.</p>
+  </section>
+
+  <section class="artifact">
+    <p class="artifact-label">What you would actually get</p>
+    <p class="synthetic-flag">Every figure below is made up. It describes a fictional person we
+       invented to show what a review looks like &mdash; not anyone&rsquo;s real spending, and not
+       real benchmark data.</p>
+    <div class="frame">
+      <iframe id="review-frame" src="../review/" title="Sample monthly spending review, built on invented data" loading="eager"></iframe>
+      <a class="frame-hit" href="../review/" target="_blank" rel="noopener" aria-label="Read the whole sample review"></a>
+      <div class="frame-cta" aria-hidden="true"><span>Read the whole sample review &rarr;</span></div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <p><strong>No bank login. Ever.</strong> We will never ask you to connect an account, upload a statement, or send a screenshot of your balance.</p>
+    <p><strong>Nothing is built yet.</strong> This is an early test of an idea. There&rsquo;s nothing to buy, download or sign up to.</p>
+    <p><strong>The numbers above are made up.</strong> That&rsquo;s a sample review built on invented data, not anyone&rsquo;s real spending.</p>
+    <p><strong>One email, then nothing.</strong> We&rsquo;ll write once to ask three short questions. That&rsquo;s the whole plan.</p>
+  </section>
+
+  <section class="signup" id="signup">
+    <h2>Want to see one of these for your own spending?</h2>
+    <form id="signup-form" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required
+               placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="accounts">Roughly how many places does your money move through in a month?
+          <span class="hint">bank accounts + cards + e-wallets</span>
+        </label>
+        <select id="accounts" name="accounts" required>
+          <option value="" selected disabled>Choose one</option>
+          <option value="1-2">1&ndash;2</option>
+          <option value="3-4">3&ndash;4</option>
+          <option value="5-6">5&ndash;6</option>
+          <option value="7plus">7 or more</option>
+        </select>
+      </div>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" id="submit-btn">Send me the three questions</button>
+      <p class="msg" id="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <footer>
+    <p>An independent project by a solo builder in Malaysia. Not a company, not a bank, not
+       affiliated with any bank or e-wallet. No data is shared with anyone.</p>
+    <p class="variant-tag">vb</p>
+  </footer>
+
+</main>
+</div>
+<noscript><img src="https://hits.sh/hen49.jul7v2v.smoke/b/load.svg" alt="" width="1" height="1" style="position:absolute;left:-9999px"></noscript>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+:root{
+  --ink:#111;
+  --paper:#fff;
+  --muted:#4a4a4a;
+  --hair:#d6d2c8;
+  --wash:#f6f4ef;
+  --accent:#8a1c1c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--wash);
+  color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:18px;
+  line-height:1.55;
+  font-variant-numeric:lining-nums;
+  font-feature-settings:"lnum" 1;
+}
+.wrap{max-width:46rem;margin:0 auto;padding:0 1.15rem}
+main{background:var(--paper);border-left:1px solid var(--hair);border-right:1px solid var(--hair)}
+@media (max-width:48rem){main{border:0}}
+
+/* ---- masthead ------------------------------------------------------ */
+.hero{padding:3rem 0 2rem}
+h1{
+  font-size:clamp(1.85rem,5.2vw,2.75rem);
+  line-height:1.16;
+  margin:0 0 1rem;
+  letter-spacing:-.01em;
+}
+.sub{font-size:clamp(1.02rem,2.4vw,1.16rem);color:var(--muted);margin:0;max-width:34rem}
+
+/* ---- the artifact -------------------------------------------------- */
+.artifact{margin:2.25rem 0 0}
+.artifact-label{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 .6rem;
+}
+/* The page deliberately scrolls past the review's own synthetic banner so the
+   visible slice contains actual figures. This label carries that warning at
+   full strength above the frame; each part inside is also chip-labelled. */
+.synthetic-flag{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:.86rem;line-height:1.45;font-weight:600;
+  background:#111;color:#fff;padding:.7rem .85rem;margin:0 0 .75rem;
+}
+.frame{
+  position:relative;
+  border:1px solid var(--hair);
+  background:#e9e9e9;
+  height:29rem;
+  overflow:hidden;
+}
+@media (max-width:40rem){.frame{height:27rem}}
+/* pointer-events:none keeps the visitor from scrolling the preview independently;
+   the transparent .frame-hit above it takes the click and opens the full review. */
+.frame iframe{width:100%;height:100%;border:0;display:block;pointer-events:none}
+.frame-hit{position:absolute;inset:0;z-index:3;display:block}
+.frame::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:7rem;z-index:1;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 88%);
+  pointer-events:none;
+}
+/* Sits above the fade, not under it, or the one call to action on the
+   artifact ends up ghosted out by its own gradient. */
+.frame-cta{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  text-align:center;padding:.65rem .9rem 1rem;background:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:.92rem;
+}
+.frame-cta span{color:var(--accent);font-weight:600;text-decoration:underline}
+.frame-hit:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.artifact-note{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:.82rem;color:var(--muted);margin:.7rem 0 0;
+}
+
+/* ---- trust block --------------------------------------------------- */
+.trust{margin:2.75rem 0 0;border-top:2px solid var(--ink);padding-top:1.4rem}
+.trust p{margin:0 0 .95rem;font-size:1rem}
+.trust p:last-child{margin-bottom:0}
+.trust strong{display:block}
+
+/* ---- form ---------------------------------------------------------- */
+.signup{
+  margin:2.75rem 0 0;padding:1.75rem 1.4rem 1.6rem;
+  background:var(--wash);border:1px solid var(--hair);
+}
+.signup h2{font-size:1.28rem;margin:0 0 1.2rem;line-height:1.3}
+label{
+  display:block;margin:0 0 .35rem;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:.92rem;font-weight:600;
+}
+.hint{
+  display:block;font-weight:400;color:var(--muted);font-size:.85rem;margin-top:.15rem;
+}
+input[type=email],select{
+  width:100%;padding:.72rem .7rem;font-size:1rem;font-family:inherit;
+  border:1px solid #9a948a;background:#fff;color:var(--ink);border-radius:2px;
+}
+input[type=email]:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.field{margin:0 0 1.15rem}
+button{
+  width:100%;padding:.85rem 1rem;font-size:1rem;font-weight:700;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--ink);color:#fff;border:0;border-radius:2px;cursor:pointer;
+}
+button:hover{background:#000}
+button[disabled]{opacity:.55;cursor:default}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.msg{
+  margin:1rem 0 0;font-size:.95rem;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+.msg.err{color:var(--accent)}
+
+/* ---- footer -------------------------------------------------------- */
+footer{
+  margin:0;padding:2rem 0 3rem;font-size:.88rem;color:var(--muted);
+}
+footer p{margin:0 0 .6rem;max-width:34rem}
+.variant-tag{font-size:.75rem;color:#9a948a}

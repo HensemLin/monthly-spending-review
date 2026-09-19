@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spending review — SYNTHETIC SAMPLE (not a real person's data)</title>
+<style>
+  /* ------------------------------------------------------------------
+     One-page spending review. Single file, no external assets, no fonts
+     to download. Designed to be read unaided, on paper or on a phone.
+     High contrast; survives photocopying.
+
+     Not a two-minute read — that promise was retired (PS2, 19 Sep). The
+     "if you read nothing else" box is the short read; the rest is the
+     evidence for it, and it is long because every figure carries its
+     source rows. That is the property the study is testing.
+
+     Content and arithmetic: Product Strategist 2 (sample-review-v0 on
+     HEN-39). Layout and legibility: Design & Frontend Lead 2 (HEN-44).
+     ------------------------------------------------------------------ */
+
+  :root{
+    --ink:#111111;
+    --paper:#ffffff;
+    --muted:#4a4a4a;
+    --rule:#111111;
+    --hair:#c9c9c9;
+  }
+
+  *{box-sizing:border-box}
+
+  html{-webkit-text-size-adjust:100%}
+
+  body{
+    margin:0;
+    background:#e9e9e9;
+    color:var(--ink);
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:17px;
+    line-height:1.5;
+    /* Georgia defaults to old-style figures, which turn "P0" into "Po" and
+       make money read oddly. Force lining, tabular-friendly numerals. */
+    font-variant-numeric:lining-nums;
+    font-feature-settings:"lnum" 1;
+  }
+
+  .page{
+    max-width:46rem;
+    margin:0 auto;
+    background:var(--paper);
+    padding:2rem 2rem 2.5rem;
+  }
+
+  /* --- Synthetic labelling -------------------------------------------
+     Three independent layers so the label survives printing, greyscale
+     photocopying and a phone screenshot of any single section:
+       1. the band at the top
+       2. a bordered chip on every section heading
+       3. the standing footer
+     ------------------------------------------------------------------ */
+
+  .band{
+    background:var(--ink);
+    color:#fff;
+    border:3px solid var(--ink);
+    padding:.6rem .8rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    line-height:1.45;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .band .band-sub{
+    display:block;
+    font-weight:600;
+    letter-spacing:.02em;
+    text-transform:none;
+    font-size:.86rem;
+    margin-top:.3rem;
+  }
+
+  .chip{
+    display:inline-block;
+    vertical-align:middle;
+    border:2px solid var(--ink);
+    border-radius:2px;
+    padding:.05em .4em;
+    margin-left:.5em;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.6rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+
+  /* --- Structure ----------------------------------------------------- */
+
+  h1{
+    font-size:1.55rem;
+    line-height:1.2;
+    margin:1.4rem 0 .35rem;
+    letter-spacing:-.01em;
+  }
+  .dek{
+    color:var(--muted);
+    font-size:.95rem;
+    margin:0 0 1.4rem;
+  }
+
+  section{
+    border-top:3px solid var(--rule);
+    padding-top:.9rem;
+    margin-top:1.9rem;
+  }
+  h2{
+    font-size:1.12rem;
+    margin:0 0 .2rem;
+    line-height:1.3;
+  }
+  h2 .num{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.1em;
+    display:block;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:.25rem;
+  }
+  h3{
+    font-size:1rem;
+    margin:1.5rem 0 .3rem;
+    line-height:1.35;
+  }
+  p{margin:.55rem 0}
+  ol,ul{margin:.55rem 0;padding-left:1.3rem}
+  li{margin:.3rem 0}
+
+  /* --- Tables -------------------------------------------------------- */
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:.7rem 0;
+    font-size:.92rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  th,td{
+    text-align:left;
+    padding:.34rem .4rem;
+    border-bottom:1px solid var(--hair);
+    vertical-align:top;
+  }
+  thead th{
+    border-bottom:2px solid var(--rule);
+    font-size:.72rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+  }
+  td.num,th.num{
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  td.ref{
+    width:2.6rem;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  td.date{width:4.4rem;white-space:nowrap}
+  tr.total td{
+    border-top:2px solid var(--rule);
+    border-bottom:none;
+    font-weight:700;
+  }
+
+  /* --- The arithmetic line ------------------------------------------- */
+
+  .working{
+    font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:.84rem;
+    line-height:1.7;
+    border-left:4px solid var(--ink);
+    padding:.5rem .7rem;
+    margin:.7rem 0;
+    background:#f6f6f6;
+    overflow-wrap:anywhere;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .working .lbl{
+    display:block;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    margin-bottom:.35rem;
+  }
+
+  /* --- "We could not see this" ---------------------------------------
+     Hatched + dashed, never a number. A dash is not a zero.
+     ------------------------------------------------------------------ */
+
+  .gap{
+    border:2px dashed var(--ink);
+    padding:.6rem .8rem;
+    margin:.8rem 0;
+    background-image:repeating-linear-gradient(
+      45deg,transparent,transparent 6px,#dcdcdc 6px,#dcdcdc 7px);
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .gap > :first-child{margin-top:0}
+  .gap > :last-child{margin-bottom:0}
+  .gap-label{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:.3rem;
+  }
+  td.unseen{
+    font-weight:700;
+    background-image:repeating-linear-gradient(
+      45deg,transparent,transparent 6px,#dcdcdc 6px,#dcdcdc 7px);
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* --- Callouts ------------------------------------------------------- */
+
+  .check{
+    border:2px solid var(--ink);
+    padding:.55rem .75rem;
+    margin:.8rem 0 0;
+    font-size:.92rem;
+  }
+  .check b{text-transform:uppercase;font-size:.72rem;letter-spacing:.08em}
+
+  .keyrule{
+    border:3px solid var(--ink);
+    padding:.7rem .85rem;
+    margin:1.2rem 0;
+    font-size:.98rem;
+  }
+
+  /* --- "If you read nothing else" ------------------------------------
+     The two-minute read. Everything after it is the evidence for it, so
+     it is the heaviest box on the page and the only one with a filled
+     heading bar. A participant who reads only this can still answer the
+     first protocol question.
+     ------------------------------------------------------------------ */
+
+  .upfront{
+    border:4px solid var(--ink);
+    margin:1.2rem 0 1.6rem;
+  }
+  .upfront h2{
+    background:var(--ink);
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    padding:.4rem .8rem;
+    margin:0;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .upfront ol{
+    margin:0;
+    padding:.6rem .85rem .7rem 2.1rem;
+    font-size:.97rem;
+  }
+  .upfront li{margin:.42rem 0}
+  .upfront .src{
+    color:var(--muted);
+    font-style:italic;
+    font-size:.86rem;
+    white-space:nowrap;
+  }
+
+  .assumption{
+    font-size:.9rem;
+    color:var(--muted);
+    font-style:italic;
+    margin:.5rem 0;
+  }
+
+  /* A bordered aside for things we chose NOT to flag. Same weight as a
+     "check us" box: it is an invitation to disagree, not a footnote. */
+  .notflagged{
+    border:1px solid var(--ink);
+    border-left:6px solid var(--ink);
+    padding:.55rem .75rem;
+    margin:1.3rem 0 0;
+    font-size:.9rem;
+  }
+  .notflagged .gap-label{margin-bottom:.2rem}
+
+  .writein{
+    border-bottom:1.5px solid var(--ink);
+    display:inline-block;
+    min-width:7rem;
+  }
+
+  footer{
+    border-top:3px solid var(--rule);
+    margin-top:2.2rem;
+    padding-top:.8rem;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:.76rem;
+    line-height:1.55;
+    color:var(--muted);
+  }
+  footer strong{color:var(--ink)}
+
+  /* --- Phone ---------------------------------------------------------- */
+
+  @media (max-width:600px){
+    body{font-size:16px}
+    .page{padding:1.1rem 1rem 1.6rem}
+    h1{font-size:1.3rem}
+    table{font-size:.84rem}
+    th,td{padding:.3rem .25rem}
+    .working{font-size:.76rem}
+
+    /* Fixed layout guarantees the table can never be wider than the screen,
+       whatever ends up in a description cell. Long words wrap instead. */
+    table{table-layout:fixed}
+    td{overflow-wrap:anywhere}   /* td only — headers must not hyphenate */
+    th{overflow-wrap:normal;word-break:keep-all}
+    td.num,th.num{width:4.9rem;white-space:normal}
+    td.ref{width:2rem}
+    td.date{width:3.2rem}
+
+    /* The two tables whose third column is a sentence rather than a figure
+       (the exclusions, and "what we could not see") stack on a phone. Held as
+       columns they squeeze the explanation to two words a line, which is the
+       column a reader has to understand to disagree with us. The source-row
+       tables keep their grid — those columns are short and numeric. */
+    .explain{table-layout:auto}
+    .explain thead{display:none}
+    .explain tr{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding:.35rem 0}
+    .explain td{display:block;border:none;padding:.05rem 0;width:auto}
+    .explain td:nth-child(1){flex:1 1 60%;font-weight:600;padding-right:.5rem}
+    .explain td.num{flex:0 0 auto;margin-left:auto;width:auto;text-align:right}
+    .explain td:nth-child(3){flex:1 1 100%;font-size:.82rem;color:var(--muted);padding-top:.15rem}
+    .explain tr.total{border-top:2px solid var(--rule);border-bottom:none}
+    .explain tr.total td{border-top:none;font-weight:700}
+    .explain tr.total td:nth-child(3){display:none}   /* empty cell, no gap */
+    /* A hatched "could not see" cell must keep its hatching once unstacked —
+       it is 1ch wide as a block, so give it a floor. */
+    .explain td.unseen{min-width:2.6rem;text-align:right;padding:0 .2rem}
+  }
+
+  /* --- Print ---------------------------------------------------------- */
+
+  @page{margin:11mm}
+  @media print{
+    /* 9.2pt Georgia with sans tables at ~8.5pt. Tested against the print
+       legibility floor: below 9pt the tabular figures start to close up. */
+    body{background:#fff;font-size:9.2pt;line-height:1.36}
+    .page{max-width:none;padding:0}
+
+    /* Tightened so the whole review lands in four A4 sheets rather than seven.
+       Nothing is removed in print — only the air between blocks. */
+    p{margin:.3rem 0}
+    ol,ul{margin:.3rem 0}
+    li{margin:.2rem 0}
+    section{margin-top:.75rem;padding-top:.45rem}
+    h1{margin:.7rem 0 .2rem}
+    h2{font-size:1.05rem}
+    h3{margin:.6rem 0 .15rem}
+    table{margin:.35rem 0}
+    th,td{padding:.13rem .3rem}
+    .working{padding:.32rem .55rem;font-size:.8rem;line-height:1.35;margin:.35rem 0}
+    .gap{padding:.4rem .55rem;margin:.45rem 0}
+    .check{padding:.32rem .55rem;margin-top:.5rem}
+    .notflagged{padding:.32rem .55rem;margin-top:.6rem}
+    .keyrule{padding:.4rem .6rem;margin:.6rem 0}
+    .upfront{margin:.6rem 0 .8rem;break-inside:avoid}
+    .upfront h2{font-size:.78rem;padding:.25rem .6rem}
+    .upfront ol{padding:.35rem .6rem .4rem 1.8rem}
+    .upfront li{margin:.25rem 0}
+    .band{padding:.4rem .6rem}
+    .dek{margin-bottom:.7rem}
+    footer{margin-top:.8rem;padding-top:.4rem}
+
+    /* Keep the small atomic units whole — a source-row table or a "check us"
+       box split across a fold is unreadable. The large blocks (.gap, .working)
+       are allowed to break: holding them whole cost a page and a half of
+       white space, and they read fine across a fold. */
+    h2,h3{break-after:avoid}
+    .check{break-inside:avoid}
+    tr{break-inside:avoid}
+    /* A long source-row table may break across a fold, but it takes its column
+       headings with it — otherwise the second half is a column of bare numbers.
+       Holding whole tables together instead cost a full extra sheet. */
+    thead{display:table-header-group}
+
+    /* Survive a print with "Background graphics" switched off. Backgrounds are
+       dropped in that mode but borders are not, so the synthetic band flips to
+       black-on-white and the "could not see" cells keep a visible edge.
+       Nothing here depends on a colour being printed. */
+    .band{background:#fff !important;color:#111 !important;border:4px solid #111}
+    .upfront h2{background:#fff !important;color:#111 !important;border-bottom:3px solid #111}
+    .working{background:transparent;border:1px solid #111;border-left:4px solid #111}
+    td.unseen{outline:1px dashed #111;outline-offset:-2px}
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <div class="band">
+    Synthetic sample — every figure on this page is made up
+    <span class="band-sub">This is not your data. It is not real benchmark data. It describes a fictional person we invented to show you what a review looks like. Nothing here was taken from any bank, card or e-wallet account.</span>
+  </div>
+
+  <h1>Spending review — fictional example “P0”</h1>
+  <p class="dek">Period: <strong>1–30 September (synthetic)</strong>. Prepared by hand. Five pages — every number is followed by the transactions it came from, so you can check any of it.</p>
+
+  <div class="keyrule">
+    <strong>Two things to know before you read on.</strong><br>
+    <strong>1.</strong> A dash <b>—</b> on this page means <em>we could not see it</em>. It never means zero.<br>
+    <strong>2.</strong> Every number shows the transactions it came from and how it was worked out. <strong>If we got something wrong, we want you to catch it.</strong> Please cross it out and tell us.
+  </div>
+
+  <div class="upfront">
+    <h2>If you read nothing else</h2>
+    <ol>
+      <li>You spent <strong>RM1,635.50</strong> on yourself in September — not the <strong>RM5,145.50</strong> your accounts show. The gap is RM3,510.00 of card repayment, own-account transfers, investment and commitments. <span class="src">(part 1)</span></li>
+      <li>Your commitments were <strong>RM1,180.00</strong>, and you set aside <strong>RM800.00</strong>. <span class="src">(part 1)</span></li>
+      <li>The largest thing you could change without changing anything structural is food delivery: <strong>8 orders, RM287.60</strong> in the month. <span class="src">(flag 2)</span></li>
+      <li><strong>We could not see cash at all</strong>, and we cannot follow the RM300.00 moved to savings. RM1,635.50 is our best count, not a certainty. <span class="src">(part 1)</span></li>
+    </ol>
+  </div>
+
+  <!-- ============================================================= -->
+  <section id="part1">
+    <h2><span class="num">Part 1 of 4</span>What we counted as personal spending<span class="chip">Synthetic</span></h2>
+
+    <p>Money leaving the accounts is not the same thing as money spent. We started from everything that went out — 36 outgoing lines — then took out the things that are not personal spending.</p>
+
+    <table class="explain">
+      <thead>
+        <tr>
+          <th>Line</th>
+          <th class="num">Amount (RM)</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Everything that left the accounts</td>
+          <td class="num">5,145.50</td>
+          <td>Starting point. This is the number most tools show you</td>
+        </tr>
+        <tr>
+          <td>− Credit card bill payment <span class="ref">(#21)</span></td>
+          <td class="num">1,240.00</td>
+          <td>Paying the card is not a purchase. The card charges are already counted where they happened. Counting the bill too would count them twice</td>
+        </tr>
+        <tr>
+          <td>− Moves between your own accounts <span class="ref">(#7, #32)</span></td>
+          <td class="num">500.00</td>
+          <td>Moving money to your own e-wallet or savings is not spending it. The e-wallet purchases themselves are counted</td>
+        </tr>
+        <tr>
+          <td>− Investment transfer <span class="ref">(#3)</span></td>
+          <td class="num">500.00</td>
+          <td>Money set aside, not consumed. Calling it an expense makes saving look like overspending</td>
+        </tr>
+        <tr>
+          <td>− Paid back to you for the shared dinner <span class="ref">(#12 less #13)</span></td>
+          <td class="num">90.00</td>
+          <td>You paid RM180.00 and were paid back RM90.00. Only your RM90.00 share is counted</td>
+        </tr>
+        <tr>
+          <td>− Commitments, shown separately <span class="ref">(#2, #4, #5, #6)</span></td>
+          <td class="num">1,180.00</td>
+          <td>Real money, but not discretionary this month — rent, internet, mobile, insurance. Kept out of “spending you can change”</td>
+        </tr>
+        <tr class="total">
+          <td>Personal spending we counted</td>
+          <td class="num">1,635.50</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>We took these out of “spending you can change”, not out of your life. They are real money, and here they are.</p>
+
+    <div class="working">
+      <span class="lbl">What we took out, shown separately as promised</span>
+      your commitments this month &nbsp; rent 900.00 + internet 100.00<br>
+      &nbsp; + mobile 60.00 + insurance 120.00 &nbsp; = <strong>1,180.00</strong><br>
+      money you set aside &nbsp; investment 500.00 + to savings 300.00 = <strong>800.00</strong><br>
+      &nbsp; (the 300.00 is the one we cannot follow — see “what we could not see”)
+    </div>
+
+    <div class="working">
+      <span class="lbl">How that total was reached — the subtraction, in the order of the table</span>
+      5,145.50 − 1,240.00 − 500.00 − 500.00 − 90.00 − 1,180.00 = <strong>1,635.50</strong><br>
+      <br>
+      of which one-off (air fryer, #25) &nbsp; 249.00<br>
+      so recurring personal spending &nbsp; 1,635.50 − 249.00 = <strong>1,386.50</strong>
+    </div>
+
+    <p>You should not have to trust that subtraction. Here is the same RM1,635.50 reached the other way round — by adding up what it was actually spent on:</p>
+
+    <div class="working">
+      <span class="lbl">The same total, added up instead of subtracted</span>
+      groceries 622.20 &nbsp;+&nbsp; delivery 287.60 &nbsp;+&nbsp; transport 223.40<br>
+      &nbsp;+&nbsp; air fryer 249.00 &nbsp;+&nbsp; your dinner share 90.00 &nbsp;+&nbsp; pharmacy 47.30<br>
+      &nbsp;+&nbsp; lunches 41.50 &nbsp;+&nbsp; coffee 40.50 &nbsp;+&nbsp; cinema 34.00 &nbsp;=&nbsp; <strong>1,635.50</strong><br>
+      &nbsp;&nbsp;&nbsp;(transport = 4 tolls 38.40 + petrol 95.00 + petrol 90.00)<br>
+      <br>
+      the two routes agree, so the subtraction above has no arithmetic hole in it
+    </div>
+
+    <div class="keyrule">
+      <strong>Every percentage on this page is worked out against RM3,120.00</strong> — your income after commitments and the fixed investment — not against the RM4,800.00 salary. If you divide by 4,800.00 you will get different numbers from ours.
+    </div>
+
+    <p><strong>The headline.</strong> The starting figure is <strong>3.1 times</strong> the real one: 5,145.50 ÷ 1,635.50 = 3.15. After commitments and the fixed investment your income was 4,800.00 − 1,180.00 − 500.00 = <strong>RM3,120.00</strong>, so personal spending was 1,635.50 ÷ 3,120.00 = <strong>52.4%</strong> of it, leaving <strong>RM1,484.50</strong> unspent this month — or RM1,733.50 if you set the one-off aside.</p>
+
+    <div class="gap">
+      <span class="gap-label">How we counted the shared dinner — and how it could be wrong</span>
+      <p>We did not work out your share from the size of the bill. We used only what actually moved: you paid RM180.00 on 7 September (#12), RM90.00 came back on 8 September (#13), so we counted <strong>RM90.00</strong>. That choice can be wrong in two directions, and only you can say which:</p>
+      <p>If the RM90.00 was <em>not</em> a settling-up and the whole bill really was yours, we have undercounted by RM90.00 and personal spending is 1,635.50 + 90.00 = <strong>RM1,725.50</strong>. If you are <em>still owed</em> money, your share is smaller than RM90.00 — and we cannot put a number on that end, because we cannot see a repayment that has not happened.</p>
+    </div>
+
+    <div class="gap">
+      <span class="gap-label">What we could not see</span>
+      <p>These are gaps in what was visible to us, not amounts of zero.</p>
+      <table class="explain">
+        <thead>
+          <tr><th>Item</th><th class="num">Amount (RM)</th><th>What we know</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cash spending</td>
+            <td class="num unseen">—</td>
+            <td>No cash withdrawal and no cash purchase reaches this record at all. There may have been none, or there may have been a great deal</td>
+          </tr>
+          <tr>
+            <td>A second card, if one exists</td>
+            <td class="num unseen">—</td>
+            <td>We can see one card. If there is another, everything charged to it is missing from every figure on this page</td>
+          </tr>
+          <tr>
+            <td>What happened to the RM300.00 moved to savings <span class="ref">(#32)</span></td>
+            <td class="num">300.00</td>
+            <td>We can see the RM300.00 leave the account, so it keeps its amount here. We cannot see what happened after it arrived. If it was spent from the other account, personal spending is understated by up to RM300.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>So RM1,635.50 is our best count, not a certainty.</strong> Cash is entirely invisible to us, and up to RM300.00 more may have been spent out of the savings account without our seeing it — which would put the real figure as high as RM1,935.50.</p>
+    </div>
+
+    <div class="check">
+      <b>Check us:</b> Do those exclusions look right to you? Is there something else we should have taken out — or something we took out that really was spending?
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <section id="part2">
+    <h2><span class="num">Part 2 of 4</span>Three things we flagged<span class="chip">Synthetic</span></h2>
+
+    <h3>Flag 1 — Your own numbers were hiding behind your card payment: RM3,510.00 of what looks like spending is not spending</h3>
+    <p>This is a finding about <em>measurement</em>, not about a habit. Four different kinds of movement were sitting inside the figure that looks like “what I spent”.</p>
+    <table>
+      <thead>
+        <tr><th>Ref</th><th>Date</th><th>Description</th><th class="num">Amount (RM)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ref">#21</td><td class="date">15 Sep</td><td>Credit card repayment</td><td class="num">1,240.00</td></tr>
+        <tr><td class="ref">#7</td><td class="date">4 Sep</td><td>E-wallet reload from your own bank account</td><td class="num">200.00</td></tr>
+        <tr><td class="ref">#32</td><td class="date">25 Sep</td><td>Transfer to your own savings</td><td class="num">300.00</td></tr>
+        <tr><td class="ref">#3</td><td class="date">2 Sep</td><td>Investment auto-debit</td><td class="num">500.00</td></tr>
+        <tr><td class="ref">#2</td><td class="date">1 Sep</td><td>Rent</td><td class="num">900.00</td></tr>
+        <tr><td class="ref">#4</td><td class="date">2 Sep</td><td>Internet bill</td><td class="num">100.00</td></tr>
+        <tr><td class="ref">#5</td><td class="date">3 Sep</td><td>Mobile postpaid</td><td class="num">60.00</td></tr>
+        <tr><td class="ref">#6</td><td class="date">3 Sep</td><td>Insurance</td><td class="num">120.00</td></tr>
+        <tr><td class="ref">#12<br>#13</td><td class="date">7–8 Sep</td><td>The half of the dinner that was paid back to you</td><td class="num">90.00</td></tr>
+        <tr class="total"><td colspan="3">Total that is not personal spending</td><td class="num">3,510.00</td></tr>
+      </tbody>
+    </table>
+    <div class="working">
+      <span class="lbl">How the numbers were reached</span>
+      card repayment 1,240.00 &nbsp;+&nbsp; own-account moves (200.00 + 300.00) 500.00<br>
+      &nbsp;+&nbsp; investment 500.00 &nbsp;+&nbsp; commitments (900.00 + 100.00 + 60.00 + 120.00) 1,180.00<br>
+      &nbsp;+&nbsp; paid back to you 90.00 &nbsp;=&nbsp; <strong>3,510.00</strong><br>
+      <br>
+      check &nbsp; 5,145.50 − 1,635.50 = <strong>3,510.00</strong> &nbsp; the two agree<br>
+      how much too big the starting figure was &nbsp; 5,145.50 ÷ 1,635.50 = <strong>3.15</strong>
+    </div>
+    <p class="assumption">This proves nothing about how you spend. It proves that the number you were probably working from was about three times too big — so anything you concluded from RM5,145.50 was concluded from the wrong number.</p>
+    <div class="check"><b>Check us:</b> Is every one of those nine rows really <em>not</em> spending? If you think one of them is, say which — it moves the RM1,635.50 straight away.</div>
+
+    <h3>Flag 2 — Delivery is your largest changeable line, and it is smaller than it feels: 8 orders, RM287.60</h3>
+    <table>
+      <thead>
+        <tr><th>Ref</th><th>Date</th><th>Description</th><th class="num">Amount (RM)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ref">#9</td><td class="date">5 Sep</td><td>Food delivery</td><td class="num">32.90</td></tr>
+        <tr><td class="ref">#15</td><td class="date">9 Sep</td><td>Food delivery</td><td class="num">28.70</td></tr>
+        <tr><td class="ref">#18</td><td class="date">12 Sep</td><td>Food delivery</td><td class="num">41.20</td></tr>
+        <tr><td class="ref">#23</td><td class="date">16 Sep</td><td>Food delivery</td><td class="num">36.40</td></tr>
+        <tr><td class="ref">#26</td><td class="date">19 Sep</td><td>Food delivery</td><td class="num">33.80</td></tr>
+        <tr><td class="ref">#29</td><td class="date">22 Sep</td><td>Food delivery</td><td class="num">39.90</td></tr>
+        <tr><td class="ref">#33</td><td class="date">25 Sep</td><td>Food delivery</td><td class="num">30.60</td></tr>
+        <tr><td class="ref">#36</td><td class="date">28 Sep</td><td>Food delivery</td><td class="num">44.10</td></tr>
+        <tr class="total"><td colspan="3">Total in this period, 8 orders</td><td class="num">287.60</td></tr>
+      </tbody>
+    </table>
+    <div class="working">
+      <span class="lbl">How the numbers were reached</span>
+      32.90 + 28.70 + 41.20 + 36.40<br>
+      &nbsp; + 33.80 + 39.90 + 30.60 + 44.10 = <strong>287.60</strong><br>
+      average per order &nbsp; 287.60 ÷ 8 = <strong>35.95</strong><br>
+      share of income after commitments and investment<br>
+      &nbsp; 287.60 ÷ 3,120.00 = 0.092 = <strong>9.2%</strong><br>
+      <br>
+      for comparison, 4 grocery trips (#8, #19, #28, #37)<br>
+      &nbsp; 186.40 + 142.85 + 164.25 + 128.70 = <strong>622.20</strong>
+    </div>
+    <div class="gap">
+      <span class="gap-label">Where we are guessing</span>
+      <p>We are flagging this because it is the largest line you could move <strong>without changing anything structural</strong> — not because 9.2% is alarming. It is not alarming.</p>
+      <p>We also do not know what any of these orders replaced. Some may have been days you would have bought lunch out anyway, in which case the saving from changing them is smaller than it looks.</p>
+    </div>
+    <div class="check"><b>Check us:</b> Are all eight of those really food delivery? Cross out any that are not — the RM287.60 and the RM35.95 average both move if even one is wrong.</div>
+
+    <h3>Flag 3 — Your food spending is RM36.06 a day, if you want a daily number</h3>
+    <p>This is the whole food picture — groceries, delivery, coffee, lunches out, and your share of the one shared dinner. Not just eating out.</p>
+    <table>
+      <thead>
+        <tr><th>Refs</th><th>Description</th><th class="num">Amount (RM)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="ref">#8 #19<br>#28 #37</td><td>Groceries, 4 trips</td><td class="num">622.20</td></tr>
+        <tr><td class="ref">8 rows<br>see flag 2</td><td>Food delivery, 8 orders</td><td class="num">287.60</td></tr>
+        <tr><td class="ref">#16 #22<br>#31</td><td>Lunches out, 3</td><td class="num">41.50</td></tr>
+        <tr><td class="ref">#11 #30<br>#38</td><td>Coffee, 3</td><td class="num">40.50</td></tr>
+        <tr><td class="ref">#12 #13</td><td>Your share of the 7 Sep dinner</td><td class="num">90.00</td></tr>
+        <tr class="total"><td colspan="2">Total food, 30 days</td><td class="num">1,081.80</td></tr>
+      </tbody>
+    </table>
+    <div class="working">
+      <span class="lbl">How the numbers were reached</span>
+      622.20 + 287.60 + 41.50 + 40.50 + 90.00 = <strong>1,081.80</strong><br>
+      1,081.80 ÷ 30 days = <strong>36.06 a day</strong><br>
+      <br>
+      without the one shared dinner, which some people would call<br>
+      social rather than food: &nbsp; 991.80 ÷ 30 = <strong>33.06 a day</strong>
+    </div>
+    <p class="assumption">If you want a daily allowance to steer by, RM36.06 is the figure it should be set against. A number below RM36 is a cut, not a budget — and we are not proposing one.</p>
+    <div class="check"><b>Check us:</b> Is that the whole of your food? Anything bought in cash is missing from it, and cash is invisible to us.</div>
+
+    <div class="notflagged">
+      <span class="gap-label">What we deliberately did not flag</span>
+      <p style="margin-top:.2rem"><strong>The RM249.00 air fryer (#25).</strong> A one-off purchase. We will not turn it into “RM3,000 a year” because we have no idea how often you buy one.<br>
+      <strong>Coffee at RM40.50 a month (#11, #30, #38).</strong> Too small to be worth your attention at this income.</p>
+      <p>There is no universal threshold at which a purchase becomes extravagant. These judgements are made against your income, your commitments and what you have told us you want — and they change if those change. <strong>If you think we were wrong to leave either of these out, say so.</strong></p>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <section id="part3">
+    <h2><span class="num">Part 3 of 4</span>One thing you could change, with the arithmetic<span class="chip">Synthetic</span></h2>
+
+    <p>This follows from flag 2, because it is the largest line you could move without changing anything structural. It is one option, not a recommendation.</p>
+
+    <p><strong>Swap 3 of your 8 delivery orders for meals cooked from the groceries you already buy.</strong></p>
+
+    <div class="working">
+      <span class="lbl">How the saving was worked out</span>
+      average delivery order &nbsp; 287.60 ÷ 8 = <strong>35.95</strong> &nbsp;(from flag 2)<br>
+      assumed cost of a home-cooked equivalent &nbsp; <strong>8.50</strong> &nbsp;← an assumption, not from your data<br>
+      saving per swap &nbsp; 35.95 − 8.50 = <strong>27.45</strong><br>
+      3 swaps in a month &nbsp; 27.45 × 3 = <strong>82.35 a month</strong><br>
+      if it held for a full year &nbsp; 82.35 × 12 = <strong>988.20 a year</strong>
+    </div>
+
+    <div class="gap">
+      <span class="gap-label">What we guessed — if either guess is wrong, the number is wrong</span>
+      <ol>
+        <li><strong>RM8.50 a meal.</strong> We have not measured what cooking actually costs you; we picked a figure. Tell us yours and the arithmetic above runs again on it.</li>
+        <li><strong>Three swaps out of eight.</strong> We do not know that three is realistic, or that those particular orders were the skippable ones. If only one swap a month is realistic: 27.45 × 1 = <strong>RM27.45 a month</strong>, not RM82.35.</li>
+      </ol>
+      <p><strong>So under our own guesses the honest range is RM27.45 to RM82.35 a month.</strong> The RM988.20 a year is an upper bound that assumes the change holds every month for twelve months, and habit changes usually do not hold all year.</p>
+    </div>
+
+    <p class="assumption">Two things this is not. It is not a claim that you cannot afford delivery — on these numbers you comfortably can. And it is not advice to stop. It is the one lever in this month's data large enough to be worth naming, and we have deliberately not turned it into a target or a budget.</p>
+  </section>
+
+  <!-- ============================================================= -->
+  <section id="part4">
+    <h2><span class="num">Part 4 of 4</span>Three questions back to you<span class="chip">Synthetic</span></h2>
+
+    <p>These are the answers that would change this page the most.</p>
+
+    <ol>
+      <li>
+        <strong>Did the RM1,240.00 card payment on 15 September cover the charges shown here, or earlier ones?</strong><br>
+        <span class="assumption">Your card was charged RM1,437.50 this month and RM1,240.00 was repaid — so at least RM197.50 of this month's charges was still outstanding at month end, whichever period the payment was for. If the payment covered an earlier period, more than that is unpaid and your real position this month is worse than this page shows.</span>
+        <div class="working">
+          <span class="lbl">Where the RM197.50 comes from — the card rows</span>
+          120.00 + 186.40 + 180.00 + 95.00 + 142.85 + 34.00<br>
+          &nbsp; + 90.00 + 249.00 + 164.25 + 47.30 + 128.70 = <strong>1,437.50</strong><br>
+          &nbsp; (#6, #8, #12, #14, #19, #20, #24, #25, #28, #35, #37)<br>
+          1,437.50 − 1,240.00 = <strong>197.50</strong>
+        </div>
+      </li>
+      <li>
+        <strong>Did the RM300.00 you moved to savings on 25 September stay there?</strong><br>
+        <span class="assumption">If it was spent from the other account, personal spending is understated by up to RM300.00 — RM1,635.50 would become as much as RM1,935.50, and the 52.4% would become 62.0%. We cannot see it either way.</span>
+      </li>
+      <li>
+        <strong>Was the RM90.00 you were paid back the full amount you were owed for the dinner?</strong><br>
+        <span class="assumption">If the whole bill was really yours, personal spending rises by RM90.00 to RM1,725.50. If you are still owed money, your share is smaller than the RM90.00 we counted — and that is the one end of the range we cannot put a number on ourselves. See “how we counted the shared dinner” in part 1.</span>
+      </li>
+    </ol>
+
+    <div class="check">
+      <b>Also worth telling us:</b> anything on this page that is plainly wrong, and anything you expected to see here that is missing.
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>SYNTHETIC DATA — EVERY FIGURE ON THIS PAGE IS INVENTED.</strong> “P0” is not a real person. Nothing here came from a real bank, card or e-wallet account, and none of it is benchmark or average data for anyone. No bank, card, e-wallet or merchant is named anywhere on this page — only the <em>type</em> of account, which is all the figures depend on.</p>
+    <p><strong>A dash (—) means we could not see it.</strong> It never means zero. Hatched boxes mark places where our view was incomplete.</p>
+    <p>Prepared by hand for a research conversation. Nothing on this page is financial or investment advice.</p>
+  </footer>
+
+</main>
+</body>
+</html>
