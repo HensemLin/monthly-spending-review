@@ -1,29 +1,71 @@
-# Counter read ledger
+# Counter baseline and read ledger
 
-hits.sh returns the **post-increment** value, so every read we make adds one to
-the counter it reads. Any number reported from these counters must have the
-reads below subtracted first.
+## The zero point
 
-> reported value = raw value − (reads of that counter listed here)
+Every counter carries build-time noise: our own headless-browser screenshots,
+the instrumentation tests, and the reads themselves. **The values below are the
+zero point.** Subtract them from any raw value before reporting anything.
 
-Log every read. A read that is not logged here becomes an inflated result later,
-and there is no way to tell after the fact which hit was ours.
+> reported = raw − baseline
 
-| Date (UTC) | Counter | Raw value returned | Reads by us, cumulative | Purpose |
-|---|---|---:|---:|---|
-| 2026-09-19 | `a/load` | 9 | 1 | Baseline before instrumentation check |
-| 2026-09-19 | `a/session` | 9 | 1 | Baseline before instrumentation check |
-| 2026-09-19 | `a/load` | 10 | 2 | Post-load check (run was inconclusive) |
-| 2026-09-19 | `a/session` | 10 | 2 | Post-load check (run was inconclusive) |
-| 2026-09-19 | `a/load` | 11 | 3 | Baseline for the verified instrumentation test |
-| 2026-09-19 | `a/load` | 14 | 4 | Confirmed 2 headless page loads recorded as 2 |
+Snapshot taken 2026-09-19, after the self-test harness was removed from the live
+site and before any real visitor was sent to the page.
 
-## Pre-launch build traffic
+| Counter | Baseline (= zero) |
+|---|---:|
+| `a/load` | 16 |
+| `a/session` | 14 |
+| `a/form-seen` | 4 |
+| `a/submit` | 4 |
+| `a/q-1-2` | 1 |
+| `a/q-3-4` | 4 |
+| `a/q-5-6` | 1 |
+| `a/q-7plus` | 1 |
+| `a/submit-undelivered` | 2 |
+| `a/submit-error` | 1 |
+| `b/load` | 2 |
+| `b/session` | 2 |
+| `b/form-seen` | 4 |
+| `b/submit` | 1 |
+| `b/q-1-2` | 1 |
+| `b/q-3-4` | 1 |
+| `b/q-5-6` | 1 |
+| `b/q-7plus` | 1 |
+| `b/submit-undelivered` | 1 |
+| `b/submit-error` | 1 |
 
-Counters `a/load` and `a/session` reached **9** before any real visitor existed.
-Those hits are our own headless-browser screenshots taken while building the
-page, plus the reads above.
+Counter base URL: `https://hits.sh/hen49.jul7v2v.smoke/<variant>/<event>.svg`
 
-**Baseline to subtract when Phase B reporting starts:** record the raw value of
-every counter immediately before the first real traffic is sent, and treat that
-as zero. Do not report cumulative raw totals.
+Note the baselines are uneven between A and B. Variant A absorbed most of the
+build and test traffic, B almost none. This is exactly why per-counter baselines
+are recorded rather than one global number — subtracting a single figure from
+both would hand variant B a false lead.
+
+## Reading a counter increments it
+
+hits.sh returns the **post-increment** value, so every read adds one to the
+counter it reads. Two consequences:
+
+1. Log every read below. An unlogged read becomes an inflated result later, and
+   there is no way to tell afterwards which hit was ours.
+2. Read as rarely as the reporting cadence allows. Do not poll.
+
+| Date (UTC) | Counters read | Why |
+|---|---|---|
+| 2026-09-19 | `a/load`, `a/session` ×2 | Instrumentation check, inconclusive first run |
+| 2026-09-19 | `a/load` ×2 | Confirmed 2 headless loads recorded as exactly 2 |
+| 2026-09-19 | `a/submit`, `a/q-3-4`, `a/form-seen` ×2 each | End-to-end submit test |
+| 2026-09-19 | `b/form-seen` ×2 | Scroll-to-form check |
+| 2026-09-19 | all 20 counters ×1 | Baseline snapshot above |
+
+**Every read after this line must be added to this table.**
+
+## What these numbers cannot do
+
+The counters are public and writable by anyone who views page source. At this
+volume that is an acceptable trade for RM0 and no account, but it means a result
+that looks too good is suspect rather than proven. `session` is a
+`sessionStorage` approximation of a visitor, not a unique person: it will
+double-count someone returning in a new session and under-count a household.
+Treat every figure as directional, and always report the sample size beside the
+rate, as the decision table in the smoke-test spec requires.
